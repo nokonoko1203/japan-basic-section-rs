@@ -2,7 +2,7 @@ extern crate geo;
 extern crate geo_types;
 
 use crate::origin_coords::{Origin, PlaneRectangularCoordinateSystem};
-use geo_types::Polygon;
+use geo_types::{LineString, Polygon};
 
 #[derive(Debug)]
 pub struct BaseSection {
@@ -45,5 +45,52 @@ impl BaseSection {
             grid_size,
             grid,
         }
+    }
+
+    fn _get_grid(
+        number: i32,
+        top_left: (i32, i32),
+        grid_size: (f64, f64),
+        x_grid: i32,
+        y_grid: i32,
+    ) -> Vec<GridCell> {
+        let mut grid = Vec::new();
+        for j in 0..y_grid {
+            for i in 0..x_grid {
+                let index = format!(
+                    "{:02}{}{}",
+                    number,
+                    (b'A' + j as u8) as char,
+                    (b'A' + i as u8) as char
+                );
+
+                let exterior = LineString::from(vec![
+                    (
+                        top_left.0 as f64 + grid_size.0 * i as f64,
+                        top_left.1 as f64 - grid_size.1 * j as f64,
+                    ),
+                    (
+                        top_left.0 as f64 + grid_size.0 * (i + 1) as f64,
+                        top_left.1 as f64 - grid_size.1 * j as f64,
+                    ),
+                    (
+                        top_left.0 as f64 + grid_size.0 * (i + 1) as f64,
+                        top_left.1 as f64 - grid_size.1 * (j + 1) as f64,
+                    ),
+                    (
+                        top_left.0 as f64 + grid_size.0 * i as f64,
+                        top_left.1 as f64 - grid_size.1 * (j + 1) as f64,
+                    ),
+                    (
+                        top_left.0 as f64 + grid_size.0 * i as f64,
+                        top_left.1 as f64 - grid_size.1 * j as f64,
+                    ),
+                ]);
+
+                let polygon = Polygon::new(exterior, vec![]);
+                grid.push(GridCell { index, polygon });
+            }
+        }
+        grid
     }
 }
