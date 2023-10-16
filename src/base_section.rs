@@ -1,5 +1,3 @@
-extern crate geo;
-
 use crate::origin_coords::{Origin, PlaneRectangularCoordinateSystem};
 use geo::{coord, polygon};
 use geo_types::Polygon;
