@@ -1,5 +1,3 @@
-use std::fmt::format;
-
 use crate::origin_coords::PlaneRectangularCoordinateSystem;
 
 #[derive(Debug)]
