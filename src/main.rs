@@ -1,3 +1,4 @@
+mod grid;
 mod origin_coords;
 
 fn main() {
@@ -7,4 +8,9 @@ fn main() {
     println!("Zone: {:?}", zone);
     println!("Origin: {:?}", origin);
     println!("EPSG: {:?}", epsg);
+
+    match grid::Grid::new(zone, 5000) {
+        Ok(grid) => println!("Grid: {:?}", grid),
+        Err(e) => panic!("Error: {}", e),
+    }
 }
