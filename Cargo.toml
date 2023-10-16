@@ -8,3 +8,4 @@ edition = "2021"
 [dependencies]
 geo = "0.26.0"
 geo-types = "0.7.11"
+geozero = "0.11.0"
