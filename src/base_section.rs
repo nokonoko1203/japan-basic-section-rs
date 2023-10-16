@@ -1,7 +1,8 @@
 extern crate geo;
 
 use crate::origin_coords::{Origin, PlaneRectangularCoordinateSystem};
-use geo::{LineString, Polygon};
+use geo::{coord, polygon};
+use geo_types::Polygon;
 
 #[derive(Debug)]
 pub struct BaseSection {
@@ -32,7 +33,7 @@ impl BaseSection {
             (bbox[2] - bbox[0]) as f64 / x_grid as f64,
             (bbox[3] - bbox[1]) as f64 / y_grid as f64,
         );
-        let grid = Self::_get_grid(number, top_left, grid_size, x_grid, y_grid);
+        let grid = Self::get_grid(number, top_left, grid_size, x_grid, y_grid);
         Self {
             number,
             system_name,
@@ -46,7 +47,7 @@ impl BaseSection {
         }
     }
 
-    fn _get_grid(
+    fn get_grid(
         number: i32,
         top_left: (i32, i32),
         grid_size: (f64, f64),
@@ -63,30 +64,28 @@ impl BaseSection {
                     (b'A' + i as u8) as char
                 );
 
-                let exterior = LineString::from(vec![
-                    (
-                        top_left.0 as f64 + grid_size.0 * i as f64,
-                        top_left.1 as f64 - grid_size.1 * j as f64,
+                let polygon = polygon![
+                    coord!(
+                        x: top_left.0 as f64 + grid_size.0 * i as f64,
+                        y: top_left.1 as f64 - grid_size.1 * j as f64,
                     ),
-                    (
-                        top_left.0 as f64 + grid_size.0 * (i + 1) as f64,
-                        top_left.1 as f64 - grid_size.1 * j as f64,
+                    coord!(
+                        x: top_left.0 as f64 + grid_size.0 * (i + 1) as f64,
+                        y: top_left.1 as f64 - grid_size.1 * j as f64,
                     ),
-                    (
-                        top_left.0 as f64 + grid_size.0 * (i + 1) as f64,
-                        top_left.1 as f64 - grid_size.1 * (j + 1) as f64,
+                    coord!(
+                        x: top_left.0 as f64 + grid_size.0 * (i + 1) as f64,
+                        y: top_left.1 as f64 - grid_size.1 * (j + 1) as f64,
                     ),
-                    (
-                        top_left.0 as f64 + grid_size.0 * i as f64,
-                        top_left.1 as f64 - grid_size.1 * (j + 1) as f64,
+                    coord!(
+                        x: top_left.0 as f64 + grid_size.0 * i as f64,
+                        y: top_left.1 as f64 - grid_size.1 * (j + 1) as f64,
                     ),
-                    (
-                        top_left.0 as f64 + grid_size.0 * i as f64,
-                        top_left.1 as f64 - grid_size.1 * j as f64,
+                    coord!(
+                        x: top_left.0 as f64 + grid_size.0 * i as f64,
+                        y: top_left.1 as f64 - grid_size.1 * j as f64,
                     ),
-                ]);
-
-                let polygon = Polygon::new(exterior, vec![]);
+                ];
                 grid.push(GridCell { index, polygon });
             }
         }
