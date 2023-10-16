@@ -1,3 +1,5 @@
+use std::fmt::format;
+
 use crate::origin_coords::PlaneRectangularCoordinateSystem;
 
 #[derive(Debug)]
@@ -33,5 +35,23 @@ impl Grid {
             500 => (10, 10),
             _ => panic!("Invalid level: {}", level),
         }
+    }
+
+    fn make_number_name(index: &str, j: u32, i: u32, level: u32) -> String {
+        let result = match level {
+            50000 => format!("{}{}{}", index, j, i),
+            5000 => format!("{}{}{}", index, j, i),
+            2500 => match (j, i) {
+                (0, 0) => format!("{}{}", index, 1),
+                (0, 1) => format!("{}{}", index, 2),
+                (1, 0) => format!("{}{}", index, 3),
+                (1, 1) => format!("{}{}", index, 4),
+                _ => panic!("Invalid j, i: {}, {}", j, i),
+            },
+            1000 => format!("{}{}{}", index, j, (b'A' + i as u8) as char),
+            500 => format!("{}{}{}", index, j, i),
+            _ => panic!("Invalid level: {}", level),
+        };
+        result
     }
 }
