@@ -23,4 +23,15 @@ impl Grid {
             ))
         }
     }
+
+    fn get_grid_size(level: u32) -> (u8, u8) {
+        match level {
+            50000 => (10, 10),
+            5000 => (10, 10),
+            2500 => (2, 2),
+            1000 => (5, 5),
+            500 => (10, 10),
+            _ => panic!("Invalid level: {}", level),
+        }
+    }
 }
