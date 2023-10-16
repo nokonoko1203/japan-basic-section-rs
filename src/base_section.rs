@@ -1,6 +1,7 @@
 extern crate geo;
 
 use crate::origin_coords::{Origin, PlaneRectangularCoordinateSystem};
+use geo::BoundingRect;
 use geo::{coord, polygon};
 use geo_types::Polygon;
 
@@ -13,7 +14,7 @@ pub struct BaseSection {
     x_grid: i32,
     y_grid: i32,
     grid_size: (f64, f64),
-    grid: Vec<GridCell>,
+    pub grid: Vec<GridCell>,
 }
 
 #[derive(Debug)]
