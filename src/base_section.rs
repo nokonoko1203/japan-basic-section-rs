@@ -1,8 +1,7 @@
 extern crate geo;
-extern crate geo_types;
 
 use crate::origin_coords::{Origin, PlaneRectangularCoordinateSystem};
-use geo_types::{LineString, Polygon};
+use geo::{LineString, Polygon};
 
 #[derive(Debug)]
 pub struct BaseSection {
@@ -18,9 +17,9 @@ pub struct BaseSection {
 }
 
 #[derive(Debug)]
-struct GridCell {
-    index: String,
-    polygon: Polygon<f64>,
+pub struct GridCell {
+    pub index: String,
+    pub polygon: Polygon<f64>,
 }
 
 impl BaseSection {
